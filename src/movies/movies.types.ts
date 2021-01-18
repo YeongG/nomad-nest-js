@@ -1,4 +1,5 @@
-import { IsNumber, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export interface Movie {
   id: number;
@@ -9,11 +10,15 @@ export interface Movie {
 
 export class ReqCreateMovie {
   @IsString()
-  title: string;
+  readonly title: string;
 
   @IsNumber()
-  year: number;
+  readonly year: number;
 
+  @IsOptional()
   @IsString({ each: true })
-  genres: string[];
+  readonly genres: string[];
 }
+
+export class ReqUpdateMovie extends PartialType(ReqCreateMovie) {}
+// PartialType을 사용해서 필드는 똑같지만 필수가 아닌 클래스를 생성해준다

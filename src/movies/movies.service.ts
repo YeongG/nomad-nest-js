@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Movie, ReqCreateMovie } from './movies.types';
+import { Movie, ReqCreateMovie, ReqUpdateMovie } from './movies.types';
 
 @Injectable()
 export class MoviesService {
@@ -13,6 +13,7 @@ export class MoviesService {
   getOne(id: number): Movie {
     const movie = this.movies.find((movie) => movie.id === id);
     if (!movie) throw new NotFoundException(`Movie with ID ${id} not found.`);
+    // nestjs에서 제공하는 에러
     return movie;
   }
 
@@ -32,7 +33,7 @@ export class MoviesService {
     });
   }
 
-  update(id: number, updateData) {
+  update(id: number, updateData: ReqUpdateMovie) {
     this.getOne(id);
     this.movies = this.movies.map((movie) =>
       movie.id === id ? { ...movie, ...updateData } : movie,

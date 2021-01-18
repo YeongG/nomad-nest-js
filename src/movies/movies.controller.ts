@@ -4,17 +4,18 @@ import {
   Param,
   Post,
   Delete,
-  Put,
   Patch,
   Body,
   Query,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
-import { Movie, ReqCreateMovie } from './movies.types';
+import { Movie, ReqCreateMovie, ReqUpdateMovie } from './movies.types';
 
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly moviesSrvice: MoviesService) {}
+
+  //메소드 데코레이터
   @Get()
   getAll(): Movie[] {
     return this.moviesSrvice.getAll();
@@ -41,7 +42,7 @@ export class MoviesController {
   }
 
   @Patch('/:id')
-  patch(@Param('id') id: number, @Body() movieData) {
+  patch(@Param('id') id: number, @Body() movieData: ReqUpdateMovie) {
     return this.moviesSrvice.update(id, movieData);
   }
 }
